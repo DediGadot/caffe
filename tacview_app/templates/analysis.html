@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <title>Analysis - {{ filename }}</title>
+  <style>
+    #event-list { float: left; width: 20%; }
+    #map { float: left; width: 75%; height: 600px; }
+  </style>
+</head>
+<body>
+  <h1>Analysis of {{ filename }}</h1>
+  <h2>Summary by Pilot</h2>
+  <ul>
+    {% for row in summary_by_pilot %}
+      <li>{{ row.pilot }}: {{ row.events }} events</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Summary by Formation</h2>
+  <ul>
+    {% for row in summary_by_formation %}
+      <li>{{ row.formation }}: {{ row.events }} events</li>
+    {% endfor %}
+  </ul>
+
+  <div id="event-list">
+    <h3>Events</h3>
+    <ul>
+    {% for e in events %}
+      <li><a href="#" onclick="focusEvent({{ loop.index0 }});return false;">{{ e.event }}</a></li>
+    {% endfor %}
+    </ul>
+  </div>
+  <div id="map">
+    {{ map_html|safe }}
+  </div>
+
+<script>
+function focusEvent(index) {
+  // Scroll to marker using Leaflet; placeholder as map is embedded as HTML
+  var markers = document.querySelectorAll('.leaflet-marker-icon');
+  if (markers[index]) {
+    markers[index].dispatchEvent(new Event('click'));
+  }
+}
+</script>
+</body>
+</html>
